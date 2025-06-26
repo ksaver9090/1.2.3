@@ -1,5 +1,5 @@
 <?php
-$host = 'MySQL-8.0';
+$host = 'localhost';
 $dbname = 'cleaning_portal';
 $username = 'root';
 $password = '';
@@ -29,6 +29,16 @@ try {
         payment VARCHAR(50) NOT NULL,
         status VARCHAR(50) DEFAULT 'новая',
         FOREIGN KEY (user_id) REFERENCES users(id)
+    )");
+
+    $pdo->exec("CREATE TABLE IF NOT EXISTS reviews (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(50) NOT NULL,
+        email VARCHAR(100) NOT NULL,
+        rating TINYINT(1) NOT NULL CHECK (rating BETWEEN 1 AND 5),
+        message TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        status ENUM('pending', 'approved') DEFAULT 'pending'
     )");
     
 } catch (PDOException $e) {
